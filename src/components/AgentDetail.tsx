@@ -4,9 +4,43 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, Mic, MessageSquare } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Agent } from "../data/agents";
+import { cn } from "../lib/utils";
 import VoiceDemo from "./VoiceDemo";
 import WidgetEmbed from "./WidgetEmbed";
 import BuyButton from "./BuyButton";
+
+const accentMap = {
+  cyan: {
+    badge: "text-neon-cyan bg-neon-cyan/10",
+    dot: "bg-neon-cyan",
+    gradient: "from-transparent via-neon-cyan/50 to-transparent",
+    check: "bg-neon-cyan/10",
+    checkIcon: "text-neon-cyan",
+    price: "text-neon-cyan",
+    tabActive: "bg-neon-cyan/10 text-neon-cyan border-neon-cyan/30",
+    button: "bg-neon-cyan/10 border-neon-cyan/30 text-neon-cyan hover:bg-neon-cyan/20 hover:shadow-neon",
+  },
+  purple: {
+    badge: "text-neon-purple bg-neon-purple/10",
+    dot: "bg-neon-purple",
+    gradient: "from-transparent via-neon-purple/50 to-transparent",
+    check: "bg-neon-purple/10",
+    checkIcon: "text-neon-purple",
+    price: "text-neon-purple",
+    tabActive: "bg-neon-purple/10 text-neon-purple border-neon-purple/30",
+    button: "bg-neon-purple/10 border-neon-purple/30 text-neon-purple hover:bg-neon-purple/20 hover:shadow-neon-purple",
+  },
+  pink: {
+    badge: "text-neon-pink bg-neon-pink/10",
+    dot: "bg-neon-pink",
+    gradient: "from-transparent via-neon-pink/50 to-transparent",
+    check: "bg-neon-pink/10",
+    checkIcon: "text-neon-pink",
+    price: "text-neon-pink",
+    tabActive: "bg-neon-pink/10 text-neon-pink border-neon-pink/30",
+    button: "bg-neon-pink/10 border-neon-pink/30 text-neon-pink hover:bg-neon-pink/20",
+  },
+};
 
 interface AgentDetailProps {
   agent: Agent | null;
@@ -61,7 +95,7 @@ export default function AgentDetail({ agent, onClose }: AgentDetailProps) {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top gradient line */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent" />
+            <div className={cn("absolute top-0 left-0 right-0 h-px bg-gradient-to-r", accentMap[agent.accentColor].gradient)} />
 
             {/* Close button */}
             <button
@@ -74,8 +108,8 @@ export default function AgentDetail({ agent, onClose }: AgentDetailProps) {
             <div className="p-6 md:p-8 lg:p-10">
               {/* Header */}
               <div className="mb-8">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-neon-cyan bg-neon-cyan/10 mb-4">
-                  <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse-glow" />
+                <div className={cn("inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-4", accentMap[agent.accentColor].badge)}>
+                  <span className={cn("w-1.5 h-1.5 rounded-full animate-pulse-glow", accentMap[agent.accentColor].dot)} />
                   Available Now
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
@@ -100,8 +134,8 @@ export default function AgentDetail({ agent, onClose }: AgentDetailProps) {
                         key={feature}
                         className="flex items-center gap-3 text-white/50"
                       >
-                        <div className="w-5 h-5 rounded-full bg-neon-cyan/10 flex items-center justify-center shrink-0">
-                          <Check className="w-3 h-3 text-neon-cyan" />
+                        <div className={cn("w-5 h-5 rounded-full flex items-center justify-center shrink-0", accentMap[agent.accentColor].check)}>
+                          <Check className={cn("w-3 h-3", accentMap[agent.accentColor].checkIcon)} />
                         </div>
                         {feature}
                       </li>
@@ -110,7 +144,7 @@ export default function AgentDetail({ agent, onClose }: AgentDetailProps) {
 
                   {/* Price */}
                   <div className="flex items-baseline gap-2 mb-6">
-                    <span className="text-4xl font-bold text-neon-cyan">
+                    <span className={cn("text-4xl font-bold", accentMap[agent.accentColor].price)}>
                       ${agent.price}
                     </span>
                     <span className="text-white/30">/{agent.pricePeriod}</span>
@@ -129,22 +163,24 @@ export default function AgentDetail({ agent, onClose }: AgentDetailProps) {
                   <div className="flex gap-2 mb-6">
                     <button
                       onClick={() => setActiveTab("voice")}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 border",
                         activeTab === "voice"
-                          ? "bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30"
-                          : "text-white/40 hover:text-white/60 border border-transparent"
-                      }`}
+                          ? accentMap[agent.accentColor].tabActive
+                          : "text-white/40 hover:text-white/60 border-transparent"
+                      )}
                     >
                       <Mic className="w-4 h-4" />
                       Try Voice Demo
                     </button>
                     <button
                       onClick={() => setActiveTab("widget")}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 border",
                         activeTab === "widget"
-                          ? "bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30"
-                          : "text-white/40 hover:text-white/60 border border-transparent"
-                      }`}
+                          ? accentMap[agent.accentColor].tabActive
+                          : "text-white/40 hover:text-white/60 border-transparent"
+                      )}
                     >
                       <MessageSquare className="w-4 h-4" />
                       Chat Widget

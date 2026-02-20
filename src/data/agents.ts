@@ -13,6 +13,25 @@ export interface Agent {
 
 export const agents: Agent[] = [
   {
+    id: "the-boss",
+    agentId: "agent_1801khybfv79ekevdhby59xt1x19",
+    name: "The Boss",
+    tagline: "Authoritative & decisive leadership agent",
+    description:
+      "A commanding voice agent built for executive communication and decision-making. The Boss delivers direct, confident responses with a take-charge attitude — ideal for coaching, briefings, and leadership-driven interactions.",
+    price: 59,
+    pricePeriod: "month",
+    features: [
+      "Commanding vocal presence",
+      "Executive-style communication",
+      "Decision-making guidance",
+      "Real-time voice interaction",
+      "Low-latency responses",
+    ],
+    accentColor: "purple",
+    status: "available",
+  },
+  {
     id: "cool-beans",
     agentId: "agent_0101khg530b8ejysty7v2hmjhze3",
     name: "Cool Beans",
